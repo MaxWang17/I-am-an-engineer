@@ -1,0 +1,1 @@
+{"version":3,"file":"vue.js","sources":["../src/index.js"],"sourcesContent":["function Vue(){\r\nalert(\"茜茜小宝贝\")\r\n}\r\nexport default Vue"],"names":["Vue","alert"],"mappings":";;;;;;CAAA,SAASA,GAAT,GAAc;CACdC,EAAAA,KAAK,CAAC,OAAD,CAAL;CACC;;;;;;;;"}
