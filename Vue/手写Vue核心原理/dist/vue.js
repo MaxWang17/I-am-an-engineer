@@ -65,9 +65,11 @@
   function defineReactive(data, key, value) {
     Object.defineProperty(data, key, {
       get: function get() {
+        console.log('get');
         return value;
       },
       set: function set(newValue) {
+        console.log('set');
         if (newValue === value) return;
         value = newValue;
       }

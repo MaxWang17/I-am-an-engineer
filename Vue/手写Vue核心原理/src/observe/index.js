@@ -14,9 +14,11 @@ class Observer {
 function defineReactive(data, key, value) {
     Object.defineProperty(data, key, {
         get() {
+            console.log('get')
             return value;
         },
         set(newValue) {
+            console.log('set')
             if (newValue === value) return;
             value = newValue;
         }
