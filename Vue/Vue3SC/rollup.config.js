@@ -40,10 +40,10 @@ function createConfig(format, output) {
         output,
         plugins:[
             json(),
-            ts({
+            ts({ // ts插件
                 tsconfig:path.resolve(__dirname,'tsconfig.json')
             }),
-            resolvePlugin(),
+            resolvePlugin(), // 解析第三方模块插件
         ]
     }
 }
