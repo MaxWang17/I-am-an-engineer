@@ -27,7 +27,7 @@ const reactiveMap = new WeakMap(); // 会自动垃圾回收，不会造成内存
 const readonlyMap = new WeakMap();
 export function createReactiveObject(target, isReadonly, baseHanelers) {
     // 如果目标不是对象，没法拦截了，reactive这个api只能拦截对象类型
-    if (isObject(target)) {
+    if (!isObject(target)) {
         return target
     }
 

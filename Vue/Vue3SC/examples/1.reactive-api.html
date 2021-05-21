@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.reactive-api</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script src="../node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
+<script>
+    let { reactive,
+        shallowReactive,
+        shallowReadonly,
+        readonly } = VueReactivity
+    let state = readonly({
+        name: "justdoit", score: {
+            nba: 37.8,
+            cba: 63.1
+        }
+    })
+    state.score.nba =10
+    console.log(state.score)
+</script>
