@@ -6,6 +6,7 @@ const isNumber = (value)=> typeof value == 'number'
 const isString = (value)=> typeof value == 'string'
 const isIntegerKey = (key)=> parseInt(key) + '' === key
 const hasOwn = (target,key)=> Object.prototype.hasOwnProperty.call(target,key)
+const hasChanged = (oldValue,value) => oldValue !== value
 
 export{
     isObject,
