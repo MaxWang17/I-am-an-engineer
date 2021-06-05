@@ -80,13 +80,15 @@ function createGetter(isReadonly = false, isShallow = false) {
 function createSetter(isShallow = false) {
   // 核心设置方法
   return function set(target, key, value, receiver) {
-    const res = Reflect.set(target, key, value, receiver);
-
     // 当数据更新时，通知对应属性的effect重新执行
 
-    // 我们要区分是新增还是修改的。vue2里无法监控更改索引，无法监控数组长度变化；vue3都解决了。但其中还是有hack的方法，需要特殊处理。
-    const oldValue = target[key]; // 获取老的值
+    // 我们要区分是新增还是修改的。vue2里无法监控更改索引，无法监控数组长度变化；vue3都解决了。但其中还是有不得不hack的地方。
 
+    const oldValue = target[key]; // 获取老的值
+    const res = Reflect.set(target, key, value, receiver);
+    
+    // 先看看是不是数组
+    
 
 
     return res;

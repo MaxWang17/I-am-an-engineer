@@ -5,25 +5,29 @@ var VueReactivity = (function (exports) {
     const extend = Object.assign;
 
     function effect(fn, options = {}) {
+        // 我需要effect变成响应式的，数据变化可以重新执行
         const effect = createReactiveEffect(fn, options);
-        if (!options.lazy) { // 利用配置的lazy属性
+        if (!options.lazy) {
+            // 利用配置的lazy属性
             effect(); // 响应式的effect会默认先执行一次
         }
         return effect;
     }
     let uid = 0;
     let activeEffect; // 存储当前正在运行的effect
-    const effectStack = []; // 
+    const effectStack = []; // 存储用的栈
     function createReactiveEffect(fn, options) {
         const effect = function reactiveEffect() {
-            if (!effectStack.includes(effect)) { // 保证effect不在栈里才执行
+            if (!effectStack.includes(effect)) {
+                // 保证effect不在栈里才执行
                 // 函数执行可能报错，所以用try-finally兜底一下
                 try {
                     effectStack.push(effect);
                     activeEffect = effect; // 头秃写法
                     return fn();
                 }
-                finally { // 不管有无异常都执行
+                finally {
+                    // 不管有无异常都执行
                     effectStack.pop();
                     activeEffect = effectStack[effectStack.length - 1];
                 }
@@ -34,6 +38,28 @@ var VueReactivity = (function (exports) {
         effect.row = fn; // 保留effect对应的原函数
         effect.options = options; // 在effect上保存用户的属性
         return effect;
+    }
+    // 让，某个对象中的属性，收集当前它对应的effect
+    const targetMap = new WeakMap();
+    function track(target, type, key) {
+        // activeEffect; // 关联已创建，你学废了吗
+        if (activeEffect === undefined) {
+            // 此属性不用收集依赖，因为没在effect中使用
+            return;
+        }
+        let depsMap = targetMap.get(target);
+        if (!depsMap) {
+            //初次取值找不到
+            targetMap.set(target, (depsMap = new Map()));
+        }
+        let dep = depsMap.get(key);
+        if (!dep) {
+            depsMap.set(key, (dep = new Set()));
+        }
+        if (!dep.has(activeEffect)) {
+            dep.add(activeEffect);
+        }
+        console.log(targetMap, "勇敢的少年快去创造奇迹");
     }
     // 需求场景1：
     // 以下是头秃写法的坑，为了解决这种顺序错乱的问题，要搞个栈做处理（先进后出，弹夹）
@@ -86,6 +112,7 @@ var VueReactivity = (function (exports) {
             if (!isReadonly) {
                 // 收集依赖，会等数据变化后更新对应的视图
                 console.log("收集effect", new Date);
+                track(target, 0 /* GET */, key); // TrackOpTypes.GET目前只是一个标识
             }
             if (isShallow) {
                 return res;

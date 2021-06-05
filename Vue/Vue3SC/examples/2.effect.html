@@ -9,7 +9,7 @@
 </head>
 
 <body>
-<div id="app"></div>
+    <div id="app"></div>
 </body>
 
 </html>
@@ -22,7 +22,10 @@
             cba: 63.1
         }, ass: "绝不传球"
     })
-    effect(()=>{
+    effect(() => {
         app.innerHTML = `${state.name}在NBA${state.ass}`
     })
+    setTimeout(() => {
+        state.name = 'fuckme'
+    }, 1000)
 </script>

@@ -16,5 +16,6 @@ export{
     isNumber,
     isString,
     isIntegerKey,
-    hasOwn
+    hasOwn,
+    hasChanged
 }
